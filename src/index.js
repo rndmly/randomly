@@ -1,15 +1,10 @@
 'use strict';
 
 
-const basic         = require('./basic'),
-      getRandom     = basic.getRandom,
-      getRandomBool = basic.getRandomBool;
-
-
-function getRandomFloat(min = 0, max = 1, includeMin = true, includeMax = false)
-{
-
-}
+const basic          = require('./basic'),
+      getRandomBool  = basic.getRandomBool,
+      getRandom      = basic.getRandom,
+      getRandomFloat = basic.getRandom;
 
 
 function getRandomInt(min = 0, max = 1, includeMin = true, includeMax = false)
@@ -37,6 +32,7 @@ function getRandomObject()
 
 
 module.exports = {
-    getRandom,
     getRandomBool,
+    getRandom,
+    getRandomFloat,
 };
