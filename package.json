@@ -1,0 +1,21 @@
+{
+  "name": "randomly",
+  "version": "0.0.0",
+  "description": "A tool to generate random data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://richardszkcs@bitbucket.org/defaultdeveloperteam/randomly.git"
+  },
+  "keywords": [
+    "random",
+    "tool",
+    "utility"
+  ],
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/defaultdeveloperteam/randomly#readme"
+}
