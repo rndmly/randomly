@@ -5,6 +5,24 @@ const isPlainObject = require('../_internals/isPlainObject');
 
 
 /**
+ * The default length of a random string.
+ *
+ * @const
+ * @type {int}
+ */
+const DEFAULT_STRING_LENGTH = 32;
+
+
+/**
+ * The maximum length of a string.
+ *
+ * @const
+ * @type {int}
+ */
+const MAX_STRING_LENGTH = (2**53) - 1;
+
+
+/**
  * Options type for the function getRandomBoolean().
  *
  * @typedef {Object|null} RandomBooleanOptions
@@ -26,6 +44,7 @@ function getRandomBool(options = null)
         return Math.random() < 0.5 ? true : false;
     }
 
+    // TODO: implement method
     // TODO: implement biased random boolean
     return Math.random() < 0.5 ? true : false;
 }
@@ -58,6 +77,7 @@ function getRandom(options = null)
         return Math.random();
     }
 
+    // TODO: implement method
     // TODO: implement inclusive/exclusive options
     // TODO: implement biased random float [0,1]|(0,1)
     return Math.random();
@@ -91,9 +111,45 @@ function getRandomInt(options = null)
         return Math.random();
     }
 
+    // TODO: implement method
     // TODO: implement inclusive/exclusive options
     // TODO: implement biased random int
     return Math.random();
+}
+
+
+/**
+ * Options type for the function getRandomString().
+ *
+ * @typedef {Object|null} RandomStringOptions
+ *
+ * @property {number}  [length=DEFAULT_STRING_LENGTH] - The length of the string.
+ * @property {number}  [min=0]                        - The value of minimum length.
+ * @property {number}  [max=MAX_STRING_LENGTH]        - The value of maximum length.
+ */
+
+
+/**
+ * Returns a random string.
+ *
+ * @param {RandomStringOptions} options - Set further options.
+ *
+ * @returns {string}
+ */
+function getRandomString(options = null)
+{
+    let length = DEFAULT_STRING_LENGTH,
+        min,
+        max;
+
+    if (isPlainObject(options)) {
+        length = options.length || DEFAULT_STRING_LENGTH;
+        min    = options.min;
+        max    = options.max;
+    }
+
+    // TODO: implement method
+    return '';
 }
 
 
@@ -102,4 +158,5 @@ module.exports = {
     getRandom,
     getRandomFloat : getRandom,
     getRandomInt,
+    getRandomString,
 };
