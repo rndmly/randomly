@@ -4,13 +4,8 @@
 const basic          = require('./basic'),
       getRandomBool  = basic.getRandomBool,
       getRandom      = basic.getRandom,
-      getRandomFloat = basic.getRandom;
-
-
-function getRandomInt(min = 0, max = 1, includeMin = true, includeMax = false)
-{
-
-}
+      getRandomFloat = basic.getRandom,
+      getRandomInt   = basic.getRandomInt;
 
 
 function getRandomString(min, max, options)
@@ -35,4 +30,5 @@ module.exports = {
     getRandomBool,
     getRandom,
     getRandomFloat,
+    getRandomInt,
 };
