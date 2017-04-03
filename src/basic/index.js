@@ -153,10 +153,122 @@ function getRandomString(options = null)
 }
 
 
+/**
+ * Options type for the function getRandomArray().
+ *
+ * @typedef {Object|null} RandomArrayOptions
+ */
+
+
+/**
+ * Returns a random array.
+ *
+ * @param {RandomArrayOptions} options - Set further options.
+ *
+ * @returns {Array}
+ */
+function getRandomArray(options = null)
+{
+    // TODO: implement method
+    return [];
+}
+
+
+/**
+ * Options type for the function getRandomObject().
+ *
+ * @typedef {Object|null} RandomObjectOptions
+ */
+
+
+/**
+ * Returns a random object.
+ *
+ * @param {RandomObjectOptions} options - Set further options.
+ *
+ * @returns {Object}
+ */
+function getRandomObject(options = null)
+{
+    // TODO: implement method
+    return {};
+}
+
+
+/**
+ * Options type for the function getRandomDate().
+ *
+ * @typedef {Object|null} RandomDateOptions
+ */
+
+
+/**
+ * Returns a random element from an object.
+ *
+ * @param {RandomDateOptions} [options] - Set further options.
+ *
+ * @returns {Date}
+ */
+function getRandomDate(options = null)
+{
+    // TODO: implement function
+    return new Date();
+}
+
+
+/**
+ * Options type for the function getRandomPick().
+ *
+ * @typedef {Object|null} RandomPickOptions
+ */
+
+
+/**
+ * Returns a random element from an object.
+ *
+ * @param {Array|Object|String} object    - The object to return a random element from.
+ * @param {RandomPickOptions}   [options] - Set further options.
+ *
+ * @returns {Array|Object|String}
+ */
+function getRandomPick(object, options = null)
+{
+    // TODO: implement function
+    return [];
+}
+
+
+/**
+ * Options type for the function getRandomShuffle().
+ *
+ * @typedef {Object|null} RandomShuffleOptions
+ */
+
+
+/**
+ * Returns a shuffled object.
+ *
+ * @param {Array|Object|String}    object    - The object to shuffle.
+ * @param {RandomShuffleOptions}   [options] - Set further options.
+ *
+ * @returns {Array|Object|String}
+ */
+function getRandomShuffle(object, options = null)
+{
+    // TODO: implement function
+    return [];
+}
+
+
 module.exports = {
     getRandomBool,
     getRandom,
     getRandomFloat : getRandom,
     getRandomInt,
     getRandomString,
+    getRandomArray,
+    getRandomObject,
+    getRandomDate,
+    getRandomPick,
+    getRandomShuffle,
 };
