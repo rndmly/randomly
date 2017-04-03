@@ -1,5 +1,6 @@
 'use strict';
 
+
 const basic         = require('./basic'),
       getRandom     = basic.getRandom,
       getRandomBool = basic.getRandomBool;

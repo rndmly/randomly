@@ -1,5 +1,6 @@
 'use strict';
 
+
 /**
  * Checks whether the given object is a plain object ({}).
  *
