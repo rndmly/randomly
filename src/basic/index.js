@@ -154,28 +154,6 @@ function getRandomDate(options = null)
 }
 
 
-/**
- * Options type for the function getRandomShuffle().
- *
- * @typedef {Object|null} RandomShuffleOptions
- */
-
-
-/**
- * Returns a shuffled object.
- *
- * @param {Array|Object|String}    object    - The object to shuffle.
- * @param {RandomShuffleOptions}   [options] - Set further options.
- *
- * @returns {Array|Object|String}
- */
-function getRandomShuffle(object, options = null)
-{
-    // TODO: implement function
-    return [];
-}
-
-
 module.exports = {
     getRandomBool  : require('./getRandomBool'),
     getRandom      : require('./getRandomFloat'),
@@ -185,6 +163,6 @@ module.exports = {
     getRandomArray,
     getRandomObject,
     getRandomDate,
-    getRandomPick : require('./getRandomPick'),
-    getRandomShuffle,
+    getRandomPick    : require('./getRandomPick'),
+    getRandomShuffle : require('./getRandomShuffle'),
 };
