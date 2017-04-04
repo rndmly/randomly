@@ -23,34 +23,6 @@ const MAX_STRING_LENGTH = (2**53) - 1;
 
 
 /**
- * Options type for the function getRandomBoolean().
- *
- * @typedef {Object|null} RandomBooleanOptions
- *
- * @property {Object|null} [bias=null] - Determines the bias.
- */
-
-
-/**
- * Returns a random boolean.
- *
- * @param {RandomBooleanOptions} [options=null] - Additional options.
- *
- * @returns {boolean}
- */
-function getRandomBool(options = null)
-{
-    if (!options || !isPlainObject(options)) {
-        return Math.random() < 0.5 ? true : false;
-    }
-
-    // TODO: implement method
-    // TODO: implement biased random boolean
-    return Math.random() < 0.5 ? true : false;
-}
-
-
-/**
  * Options type for the function getRandom().
  *
  * @typedef {Object|null} RandomOptions
@@ -261,7 +233,7 @@ function getRandomShuffle(object, options = null)
 
 
 module.exports = {
-    getRandomBool,
+    getRandomBool : require('./getRandomBool'),
     getRandom,
     getRandomFloat : getRandom,
     getRandomInt,
