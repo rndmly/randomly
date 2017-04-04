@@ -12,7 +12,7 @@ module.exports = (Randomly) => {
                 '() - call with defaults',
                 () => {
                     it(
-                        'should return boolean values [true, false] between 49%-51% ratios',
+                        'should return boolean values [true, false] between 49%-51% chances',
                         () => {
                             const size  = 5000000,
                                   bools = {
