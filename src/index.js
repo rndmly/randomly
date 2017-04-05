@@ -3,9 +3,9 @@
 
 const basic            = require('./basic'),
       getRandomBool    = basic.getRandomBool,
+      getRandomInt     = basic.getRandomInt,
       getRandom        = basic.getRandom,
       getRandomFloat   = basic.getRandomFloat,
-      getRandomInt     = basic.getRandomInt,
       getRandomString  = basic.getRandomString,
       getRandomArray   = basic.getRandomArray,
       getRandomObject  = basic.getRandomObject,
@@ -16,9 +16,9 @@ const basic            = require('./basic'),
 
 module.exports = {
     getRandomBool,
+    getRandomInt,
     getRandom,
     getRandomFloat,
-    getRandomInt,
     getRandomString,
     getRandomArray,
     getRandomObject,
