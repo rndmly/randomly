@@ -22,4 +22,4 @@ function getRandomArray(options = null)
 }
 
 
-module.exports = getRandomArray();
+module.exports = getRandomArray;
