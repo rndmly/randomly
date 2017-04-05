@@ -5,27 +5,6 @@ const isPlainObject = require('../_internals/isPlainObject');
 
 
 /**
- * Options type for the function getRandomArray().
- *
- * @typedef {Object|null} RandomArrayOptions
- */
-
-
-/**
- * Returns a random array.
- *
- * @param {RandomArrayOptions} options - Set further options.
- *
- * @returns {Array}
- */
-function getRandomArray(options = null)
-{
-    // TODO: implement method
-    return [];
-}
-
-
-/**
  * Options type for the function getRandomObject().
  *
  * @typedef {Object|null} RandomObjectOptions
@@ -73,7 +52,7 @@ module.exports = {
     getRandom       : require('./getRandomFloat'),
     getRandomFloat  : require('./getRandomFloat'),
     getRandomString : require('./getRandomString'),
-    getRandomArray,
+    getRandomArray  : require('./getRandomArray'),
     getRandomObject,
     getRandomDate,
     getRandomPick    : require('./getRandomPick'),
