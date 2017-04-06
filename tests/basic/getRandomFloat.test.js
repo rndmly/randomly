@@ -12,7 +12,7 @@ module.exports = (Randomly) => {
         () => {
             it(
                 'should return [0,1) in 10 groups with [0.0..0.9] range between 9.9%-10.1% chances',
-                () => {
+                (done) => {
                     const size = 1000000,
                           ratios = {
                               '0.0' : 0,
@@ -38,6 +38,8 @@ module.exports = (Randomly) => {
                         let ratio = Math.floor(ratios[key] / size * 1000) / 10;
                         assert.include(ratioArr, ratio);
                     }
+
+                    done();
                 }
             );
         }

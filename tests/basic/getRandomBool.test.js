@@ -48,7 +48,7 @@ module.exports = (Randomly) => {
                 () => {
                     it(
                         'should return boolean values [true, false] between 50%-50% chances (+-1% diff)',
-                        () => {
+                        (done) => {
                             const ratios = [49, 50, 51];
 
                             generate(
@@ -59,6 +59,8 @@ module.exports = (Randomly) => {
                                     assert.include(ratios, value);
                                 }
                             );
+
+                            done();
                         }
                     );
                 }
@@ -69,7 +71,7 @@ module.exports = (Randomly) => {
                 () => {
                     it(
                         'should return boolean values [true, false]',
-                        () => {
+                        (done) => {
                             const bools = [true, false],
                                   fn    = Randomly.getRandomBool;
 
@@ -89,6 +91,8 @@ module.exports = (Randomly) => {
                                     assert.include(bools, value);
                                 }
                             );
+
+                            done();
                         }
                     );
                 }
@@ -99,11 +103,13 @@ module.exports = (Randomly) => {
                 () => {
                     it(
                         'should return false in 100% of the time',
-                        () => {
+                        (done) => {
                             const percents = generate(() => { return Randomly.getRandomBool(0.0); });
 
                             assert.equal(percents.true,  0);
                             assert.equal(percents.false, 100);
+
+                            done();
                         }
                     );
                 }
@@ -114,11 +120,13 @@ module.exports = (Randomly) => {
                 () => {
                     it(
                         'should return [true, false] between 25%-75% chances (+-1% diff)',
-                        () => {
+                        (done) => {
                             const percents = generate(() => { return Randomly.getRandomBool(0.25); });
 
                             assert.include([24, 25, 26], percents.true);
                             assert.include([74, 75, 76], percents.false);
+
+                            done();
                         }
                     );
                 }
@@ -129,7 +137,7 @@ module.exports = (Randomly) => {
                 () => {
                     it(
                         'should return boolean values [true, false] between 50%-50% chances (+-1% diff)',
-                        () => {
+                        (done) => {
                             const ratios = [49, 50, 51];
 
                             generate(
@@ -140,6 +148,8 @@ module.exports = (Randomly) => {
                                     assert.include(ratios, value);
                                 }
                             );
+
+                            done();
                         }
                     );
                 }
@@ -150,11 +160,13 @@ module.exports = (Randomly) => {
                 () => {
                     it(
                         'should return [true, false] between 75%-25% chances (+-1% diff)',
-                        () => {
+                        (done) => {
                             const percents = generate(() => { return Randomly.getRandomBool(0.75); });
 
                             assert.include([74, 75, 76], percents.true);
                             assert.include([24, 25, 26], percents.false);
+
+                            done();
                         }
                     );
                 }
@@ -165,11 +177,13 @@ module.exports = (Randomly) => {
                 () => {
                     it(
                         'should return true in 100% of the time',
-                        () => {
+                        (done) => {
                             const percents = generate(() => { return Randomly.getRandomBool(1.0); });
 
                             assert.equal(percents.true,  100);
                             assert.equal(percents.false, 0);
+
+                            done();
                         }
                     );
                 }
