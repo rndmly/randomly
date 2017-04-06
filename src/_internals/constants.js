@@ -1,6 +1,20 @@
 'use strict';
 
 
+/**
+ * The power of the maximum string length.
+ *
+ * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length}
+ *
+ * @private
+ * @internal
+ * @const
+ *
+ * @type {number}
+ */
+const _MAXIMUM_STRING_LENGTH_POWER = 53;
+
+
 module.exports = {
 
     /**
@@ -61,5 +75,29 @@ module.exports = {
      * @type {boolean}
      */
     _DEFAULT_INCLUDE_MAX : false,
+
+
+    /**
+     * The default length of a random string.
+     *
+     * @private
+     * @internal
+     * @const
+     *
+     * @type {int}
+     */
+    _DEFAULT_STRING_LENGTH : 32,
+
+
+    /**
+     * The maximum length of a string.
+     *
+     * @private
+     * @internal
+     * @const
+     *
+     * @type {int}
+     */
+     _MAX_STRING_LENGTH : Math.pow(2, _MAXIMUM_STRING_LENGTH_POWER) - 1,
 
 };

@@ -28,8 +28,12 @@ const constants      = require('../_internals/constants'),
  *
  * @returns {number}
  */
-function getRandomFloat(options = null)
+function getRandomFloat(options)
 {
+    if (typeof options === 'undefined') {
+        options = null;
+    }
+
     if (!options || !isPlainObject(options)) {
         return Math.random();
     }
@@ -64,7 +68,7 @@ function getRandomFloat(options = null)
         }
 
         if (incMin === false && incMax === false) {
-            while (true) {
+            for (;;) {
                 let rnd = Math.random();
 
                 if (rnd > 0) {

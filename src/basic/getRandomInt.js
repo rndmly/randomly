@@ -1,10 +1,7 @@
 'use strict';
 
 
-const constants      = require('../_internals/constants'),
-      isPlainObject  = require('../_internals/isPlainObject'),
-      asUsefulNumber = require('../_internals/asUsefulNumber'),
-      asBool         = require('../_internals/asBool');
+const isPlainObject = require('../_internals/isPlainObject');
 
 
 /**
@@ -24,12 +21,16 @@ const constants      = require('../_internals/constants'),
  * By default, this function returns min (inclusive) and max (exclusive),
  * which behavior can be changed via the options parameter.
  *
- * @param {RandomIntOptions} options - Set further options.
+ * @param {RandomIntOptions} [options=null] - Set further options.
  *
  * @returns {int}
  */
-function getRandomInt(options = null)
+function getRandomInt(options)
 {
+    if (typeof options === 'undefined') {
+         options = null;
+    }
+
     if (!options || !isPlainObject(options)) {
         return Math.random();
     }

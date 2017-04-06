@@ -1,3 +1,5 @@
+/* eslint no-magic-numbers: 0 */
+
 'use strict';
 
 
@@ -24,8 +26,12 @@ function generate(genFn, testFn)
     };
 
     if (testFn) {
-        for (let [key, value] of Object.entries(percents)) {
-            testFn(value);
+        for (let key in percents) {
+            if (percents.hasOwnProperty(key)) {
+                const value = percents[key];
+
+                testFn(value);
+            }
         }
     }
 

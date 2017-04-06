@@ -2,24 +2,6 @@
 
 
 /**
- * The default length of a random string.
- *
- * @const
- * @type {int}
- */
-const DEFAULT_STRING_LENGTH = 32;
-
-
-/**
- * The maximum length of a string.
- *
- * @const
- * @type {int}
- */
-const MAX_STRING_LENGTH = (2**53) - 1;
-
-
-/**
  * Options type for the function getRandomString().
  *
  * @typedef {Object|null} RandomStringOptions
@@ -33,15 +15,15 @@ const MAX_STRING_LENGTH = (2**53) - 1;
 /**
  * Returns a random string.
  *
- * @param {RandomStringOptions} options - Set further options.
+ * @param {RandomStringOptions} [options=null] - Set further options.
  *
  * @returns {string}
  */
-function getRandomString(options = null)
+function getRandomString(options)
 {
-    let length = DEFAULT_STRING_LENGTH,
-        min,
-        max;
+    if (typeof options === 'undefined') {
+        options = null;
+    }
 
     // TODO: implement method
     return '';

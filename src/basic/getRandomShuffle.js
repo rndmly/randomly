@@ -8,7 +8,7 @@
  * @internal
  * {@link https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array}
  *
- * @param {Array} array
+ * @param {Array} array - The array to shuffle in place.
  */
 function shuffle(array) {
     let index = array.length,
@@ -39,13 +39,17 @@ function shuffle(array) {
 /**
  * Returns a shuffled object.
  *
- * @param {Array|Object|String}  object    - The object to shuffle.
- * @param {RandomShuffleOptions} [options] - Set further options.
+ * @param {Array|Object|String}  object         - The object to shuffle.
+ * @param {RandomShuffleOptions} [options=null] - Set further options.
  *
  * @returns {*|null}
  */
-function getRandomShuffle(object, options = null)
+function getRandomShuffle(object, options)
 {
+    if (typeof options === 'undefined') {
+        options = null;
+    }
+
     if (object !== null && typeof object === 'object') {
         const keys   = Object.keys(object),
               length = keys.length;

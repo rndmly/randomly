@@ -20,9 +20,9 @@ const constants = require('../_internals/constants');
  *
  * @returns {boolean}
  */
-function getRandomBool(bias = null)
+function getRandomBool(bias)
 {
-    if (bias === null) {
+    if (typeof bias === 'undefined') {
         bias = constants._DEFAULT_BOOLEAN_BIAS;
     }
 

@@ -11,12 +11,16 @@
 /**
  * Returns a random array.
  *
- * @param {RandomArrayOptions} options - Set further options.
+ * @param {RandomArrayOptions} [options=null] - Set further options.
  *
  * @returns {Array}
  */
-function getRandomArray(options = null)
+function getRandomArray(options)
 {
+    if (typeof options === 'undefined') {
+        options = null;
+    }
+
     // TODO: implement method
     return [];
 }

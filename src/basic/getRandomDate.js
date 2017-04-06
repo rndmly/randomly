@@ -11,12 +11,16 @@
 /**
  * Returns a random element from an object.
  *
- * @param {RandomDateOptions} [options] - Set further options.
+ * @param {RandomDateOptions} [options=null] - Set further options.
  *
  * @returns {Date}
  */
-function getRandomDate(options = null)
+function getRandomDate(options)
 {
+    if (typeof options === 'undefined') {
+        options = null;
+    }
+
     // TODO: implement function
     return new Date();
 }

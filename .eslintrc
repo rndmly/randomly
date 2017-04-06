@@ -1,1 +1,72 @@
-[]
+{
+    "plugins" : [
+        "node",
+        "jsdoc"
+    ],
+    "extends" : [
+        "eslint:recommended",
+        "plugin:node/recommended"
+    ],
+    "env" : {
+        "node"  : true,
+        "mocha" : true
+    },
+    "rules" : {
+        // Node rules
+        "node/no-unpublished-require" : 0,
+        "node/no-missing-require"     : 0,
+
+        // JSDoc rules
+        "jsdoc/check-param-names" : 2,
+        "jsdoc/check-tag-names"   : 2,
+        "jsdoc/check-types"       : 2,
+        "jsdoc/newline-after-description" : 2,
+        "jsdoc/require-description-complete-sentence" : 2,
+        "jsdoc/require-example" : 0,
+        "jsdoc/require-hyphen-before-param-description" : 2,
+        "jsdoc/require-param" : 2,
+        "jsdoc/require-param-description" : 2,
+        "jsdoc/require-param-name" : 2,
+        "jsdoc/require-param-type" : 2,
+        "jsdoc/require-returns-description" : 0,
+        "jsdoc/require-returns-type"        : 2,
+
+        // Style rules
+        "id-length" : [
+            2,
+            {
+                "exceptions" : [
+                    "i", "j", "k", "p", "n", "x", "y", "w", "h"
+                ]
+            }
+        ],
+        "no-magic-numbers": [
+            2,
+            {
+                "ignore"             : [-1, 0, 1, 2],
+                "ignoreArrayIndexes" : true
+            }
+        ],
+        "max-len" : [2, 120, 4],
+        "max-lines" : [
+            2,
+            {
+                "max"            : 500,
+                "skipBlankLines" : true,
+                "skipComments"   : true
+            }
+        ],
+        "eol-last" : [2, "always"]
+    },
+    "settings" : {
+        "jsdoc" : {
+            "tagNamePreference" : {
+                "param"   : "param",
+                "returns" : "returns"
+            },
+            "additionalTagNames" : {
+                "customTags" : ["internal"]
+            }
+        }
+    }
+}

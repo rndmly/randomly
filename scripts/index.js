@@ -4,6 +4,7 @@
 const gulp = require('gulp');
 
 
+require('./lint');
 require('./test');
 
 

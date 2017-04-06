@@ -11,12 +11,16 @@
 /**
  * Returns a random object.
  *
- * @param {RandomObjectOptions} options - Set further options.
+ * @param {RandomObjectOptions} [options=null] - Set further options.
  *
  * @returns {Object}
  */
-function getRandomObject(options = null)
+function getRandomObject(options)
 {
+    if (typeof options === 'undefined') {
+        options = null;
+    }
+
     // TODO: implement method
     return {};
 }
