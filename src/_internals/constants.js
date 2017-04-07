@@ -11,6 +11,7 @@
  * @const
  *
  * @type {number}
+ * @default 53
  */
 const _MAXIMUM_STRING_LENGTH_POWER = 53;
 
