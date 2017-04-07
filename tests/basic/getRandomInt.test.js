@@ -192,6 +192,111 @@ module.exports = (Randomly) => {
                     ).timeout(0);
                 }
             );
+
+            describe(
+                'Extreme Cases',
+                () => {
+                    describe(
+                        'Bound Checks',
+                        () => {
+                            describe(
+                                '(0, 0)',
+                                () => {
+                                    it(
+                                        'should throw an error, the minimum and maximum cannot be equal',
+                                        () => {
+                                            assert.throws(
+                                                () => {
+                                                    Randomly.getRandomInt(0, 0);
+                                                },
+                                                'Minimum (0) and maximum (0) cannot be equal.'
+                                            );
+                                        }
+                                    )
+                                }
+                            );
+
+                            describe(
+                                '(1, 0)',
+                                () => {
+                                    it(
+                                        'should throw an error, the minimum cannot be larger, than the maximum',
+                                        () => {
+                                            assert.throws(
+                                                () => {
+                                                    Randomly.getRandomInt(1, 0);
+                                                },
+                                                'Minimum (1) cannot be larger, than maximum (0).'
+                                            );
+                                        }
+                                    )
+                                }
+                            );
+
+                            describe(
+                                '(0, 1, includeMin:false, includeMax:true)',
+                                () => {
+                                    it(
+                                        'should throw an error, no possible integer in the range (0, 1]',
+                                        () => {
+                                            assert.throws(
+                                                () => {
+                                                    Randomly.getRandomInt(0, 1, {
+                                                        includeMin : false,
+                                                        includeMax : true,
+                                                    });
+                                                },
+                                                'Minimum is excluded, no possible integer in the range (0, 1].'
+                                            );
+                                        }
+                                    )
+                                }
+                            );
+
+                            describe(
+                                '(0, 1, includeMin:true, includeMax:false)',
+                                () => {
+                                    it(
+                                        'should throw an error, no possible integer in the range [0, 1)',
+                                        () => {
+                                            assert.throws(
+                                                () => {
+                                                    Randomly.getRandomInt(0, 1, {
+                                                        includeMin : true,
+                                                        includeMax : false,
+                                                    });
+                                                },
+                                                'Maximum is excluded, no possible integer in the range [0, 1).'
+                                            );
+                                        }
+                                    )
+                                }
+                            );
+
+                            describe(
+                                '(0, 1, includeMin:false, includeMax:false)',
+                                () => {
+                                    it(
+                                        'should throw an error, no possible integer in the range (0, 1)',
+                                        () => {
+                                            assert.throws(
+                                                () => {
+                                                    Randomly.getRandomInt(0, 1, {
+                                                        includeMin : false,
+                                                        includeMax : false,
+                                                    });
+                                                },
+                                                'Minimum and maximum are excluded, ' +
+                                                'no possible integer in the range (0, 1).'
+                                            );
+                                        }
+                                    )
+                                }
+                            );
+                        }
+                    );
+                }
+            );
         }
     );
 };

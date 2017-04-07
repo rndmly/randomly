@@ -30,12 +30,19 @@ const constants     = require('../_internals/constants'),
  */
 function getRandomInt(minimum, maximum, options)
 {
-    // TODO: implement bound checking
     // TODO: implement negative ranges
     // TODO: implement biased random int
 
     minimum = numberOf(minimum, constants._DEFAULT_INT_MIN);
     maximum = numberOf(maximum, constants._DEFAULT_INT_MAX);
+
+    if (minimum === maximum) {
+        throw new Error(`Minimum (${minimum}) and maximum (${maximum}) cannot be equal.`);
+    }
+
+    if (minimum > maximum) {
+        throw new Error(`Minimum (${minimum}) cannot be larger, than maximum (${maximum}).`);
+    }
 
     if (typeof options === 'undefined') {
          options = null;
@@ -47,6 +54,26 @@ function getRandomInt(minimum, maximum, options)
     if (isPlainObject(options)) {
         incMin = boolOf(options.includeMin, incMin);
         incMax = boolOf(options.includeMax, incMax);
+    }
+
+    if (!incMin && incMax) {
+        if (minimum + 1 === maximum) {
+            throw new Error(`Minimum is excluded, no possible integer in the range (${minimum}, ${maximum}].`);
+        }
+    }
+
+    if (incMin && !incMax) {
+        if (minimum === maximum - 1) {
+            throw new Error(`Maximum is excluded, no possible integer in the range [${minimum}, ${maximum}).`);
+        }
+    }
+
+    if (!incMin && !incMax) {
+        if (minimum + 1 >= maximum - 1) {
+            throw new Error(
+                `Minimum and maximum are excluded, no possible integer in the range (${minimum}, ${maximum}).`
+            );
+        }
     }
 
     // The default random integer case (minimum included, maximum is excluded)
