@@ -33,6 +33,32 @@ module.exports = {
 
 
     /**
+     * The default minimum integer value.
+     *
+     * @private
+     * @internal
+     * @const
+     *
+     * @type {int}
+     * @default 0
+     */
+    _DEFAULT_INT_MIN : 0,
+
+
+    /**
+     * The default maximum integer value.
+     *
+     * @private
+     * @internal
+     * @const
+     *
+     * @type {int}
+     * @default 9007199254740991 - The maximum safe integer (2^53-1).
+     */
+    _DEFAULT_INT_MAX : Number.MAX_SAFE_INTEGER,
+
+
+    /**
      * The default minimum float value.
      *
      * @private
