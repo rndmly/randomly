@@ -26,11 +26,11 @@ function getRandomBool(bias)
         bias = constants._DEFAULT_BOOLEAN_BIAS;
     }
 
-    if (bias === 0) {
+    if (bias <= 0) {
         return false;
     }
 
-    if (bias === 1) {
+    if (bias >= 1) {
         return true;
     }
 

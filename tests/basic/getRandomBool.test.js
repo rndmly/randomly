@@ -112,6 +112,18 @@ module.exports = (Randomly) => {
                             done();
                         }
                     );
+
+                    it(
+                        'should return false in 100% of the time, when lower, than 0 was passed',
+                        (done) => {
+                            const percents = generate(() => { return Randomly.getRandomBool(-10); });
+
+                            assert.equal(percents.true,  0);
+                            assert.equal(percents.false, 100);
+
+                            done();
+                        }
+                    );
                 }
             );
 
@@ -179,6 +191,18 @@ module.exports = (Randomly) => {
                         'should return true in 100% of the time',
                         (done) => {
                             const percents = generate(() => { return Randomly.getRandomBool(1.0); });
+
+                            assert.equal(percents.true,  100);
+                            assert.equal(percents.false, 0);
+
+                            done();
+                        }
+                    );
+
+                    it(
+                        'should return true in 100% of the time, when larger, than 1 was passed',
+                        (done) => {
+                            const percents = generate(() => { return Randomly.getRandomBool(10); });
 
                             assert.equal(percents.true,  100);
                             assert.equal(percents.false, 0);
