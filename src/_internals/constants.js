@@ -25,6 +25,8 @@ module.exports = {
      * @const
      *
      * @type {number}
+     * @default 0.5 - The default boolean bias is 50% meaning that the boolean value will be true
+     *                about 50% of the time and will be false about 50% of the time.
      */
     _DEFAULT_BOOLEAN_BIAS : .5,
 
@@ -37,6 +39,7 @@ module.exports = {
      * @const
      *
      * @type {number}
+     * @default 0
      */
     _DEFAULT_FLOAT_MIN : 0,
 
@@ -49,6 +52,7 @@ module.exports = {
      * @const
      *
      * @type {number}
+     * @default 1
      */
     _DEFAULT_FLOAT_MAX : 1,
 
@@ -61,6 +65,7 @@ module.exports = {
      * @const
      *
      * @type {boolean}
+     * @default true
      */
     _DEFAULT_INCLUDE_MIN : true,
 
@@ -73,6 +78,7 @@ module.exports = {
      * @const
      *
      * @type {boolean}
+     * @default false
      */
     _DEFAULT_INCLUDE_MAX : false,
 
@@ -85,6 +91,7 @@ module.exports = {
      * @const
      *
      * @type {int}
+     * @default 32
      */
     _DEFAULT_STRING_LENGTH : 32,
 
@@ -97,6 +104,8 @@ module.exports = {
      * @const
      *
      * @type {int}
+     * @default 9007199254740991 - The value is 2^53-1.
+     * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length}
      */
      _MAX_STRING_LENGTH : Math.pow(2, _MAXIMUM_STRING_LENGTH_POWER) - 1,
 
