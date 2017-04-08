@@ -1,49 +1,34 @@
 'use strict';
 
-
-const glob = require('glob'),
-      path = require('path');
-
-
 const Randomly = require('../index');
-
-
-function requireTests(cwd)
-{
-    const files = glob.sync(
-        '**/*.test.js',
-        {
-            cwd : cwd,
-        }
-    );
-
-    files.forEach(
-        (file) => {
-            const p = path.normalize(cwd + '/' + file);
-
-            require(p)(Randomly);
-        }
-    );
-}
-
 
 describe(
     'Randomly',
     () => {
-        const files = glob.sync(
-            '**/index.js',
-            {
-                cwd    : __dirname,
-                ignore : '*',
-            }
-        );
+        let filename;
 
-        files.forEach(
-            (file) => {
-                const p = path.normalize(__dirname + '/' + file);
+        for (let i = 0, args = process.argv, len = args.length; i < len; i++) {
+            if (args[i].indexOf('--filename') === 0) {
+                const parts = args[i].split('=');
 
-                require(p)(requireTests);
+                filename = parts[1];
+
+                break;
             }
-        );
+        }
+
+        if (filename) {
+            require(`./${filename}`)(Randomly);
+
+        } else {
+            [
+                require('./basic'),
+
+            ].forEach(
+                (module) => {
+                    module(Randomly);
+                }
+            );
+        }
     }
 );

@@ -10,6 +10,7 @@
     "gulp": "node_modules/gulp/bin/gulp.js --gulpfile scripts/index.js",
     "lint": "npm run gulp -- lint",
     "test": "npm run gulp -- lint && npm run gulp -- test",
+    "test-file": "npm run gulp -- test-file --file",
     "ci": "npm run test"
   },
   "repository": {

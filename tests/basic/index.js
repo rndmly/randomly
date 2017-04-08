@@ -1,11 +1,19 @@
 'use strict';
 
-
-module.exports = (requireTests) => {
+module.exports = (Randomly) => {
     describe(
         '.basic',
         () => {
-            requireTests(__dirname);
+            [
+                require('./getRandomBool.test'),
+                require('./getRandomInt.test'),
+                require('./getRandomFloat.test'),
+
+            ].forEach(
+                (module) => {
+                    module(Randomly);
+                }
+            );
         }
     );
 };

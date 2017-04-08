@@ -6,6 +6,7 @@ const gulp = require('gulp');
 
 require('./lint');
 require('./test');
+require('./test-file');
 
 
 gulp.task(
