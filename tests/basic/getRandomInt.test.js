@@ -21,14 +21,13 @@ function generate(genFn, testFn)
         ++vals[key];
     }
 
-    const len      = Object.keys(vals).length,
-          percents = {};
+    const percents = {};
 
     for (let key in vals) {
         if (vals.hasOwnProperty(key)) {
             const value = vals[key];
 
-            percents[key] = Math.round(value  / size * (len * 10));
+            percents[key] = Math.round(value / size * 1000) / 10;
         }
     }
 
@@ -46,253 +45,394 @@ function generate(genFn, testFn)
 }
 
 
+function getNumbers(percents)
+{
+    return Object
+        .keys(percents)
+        .map(Number)
+        .sort((a, b) => a - b);
+}
+
+
 module.exports = (Randomly) => {
     describe(
         '.getRandomInt()',
         () => {
             describe(
-                '() - call with defaults',
-                () => {
-                    it(
-                        'should return integers in the range [0, Number.MAX_SAFE_INTEGER)',
-                        (done) => {
-                            let value;
-
-                            for (let i = 0; i < 25000000; i++) {
-                                value = Randomly.getRandomInt();
-
-                                if (value === 0) {
-                                    assert.notEqual(value, 0);
-                                }
-
-                                if (value === Number.MAX_SAFE_INTEGER) {
-                                    assert.notEqual(value, Number.MAX_SAFE_INTEGER);
-                                }
-                            }
-
-                            done();
-                        }
-                    ).timeout(0);
-                }
-            );
-
-            describe(
-                '(0, 10)',
-                () => {
-                    it(
-                        'should return integers in the range [0, 10), each number with a 10% chance',
-                        (done) => {
-                            generate(
-                                () => {
-                                    return Randomly.getRandomInt(0, 10);
-                                },
-                                (value) => {
-                                    assert.equal(10, value);
-                                }
-                            );
-
-                            done();
-                        }
-                    ).timeout(0);
-                }
-            );
-
-            describe(
-                '(0, 10, includeMin:true, includeMax:false)',
-                () => {
-                    it(
-                        'should return integers in the range [0, 10), each number with a 10% chance',
-                        (done) => {
-                            generate(
-                                () => {
-                                    return Randomly.getRandomInt(0, 10, {
-                                        includeMin : true,
-                                        includeMax : false,
-                                    });
-                                },
-                                (value) => {
-                                    assert.equal(10, value);
-                                }
-                            );
-
-                            done();
-                        }
-                    ).timeout(0);
-                }
-            );
-
-            describe(
-                '(0, 10, includeMin:true, includeMax:true)',
-                () => {
-                    it(
-                        'should return integers in the range [0, 10], each number with a 10% chance',
-                        (done) => {
-                            generate(
-                                () => {
-                                    return Randomly.getRandomInt(0, 10, {
-                                        includeMin : true,
-                                        includeMax : true,
-                                    });
-                                },
-                                (value) => {
-                                    assert.equal(10, value);
-                                }
-                            );
-
-                            done();
-                        }
-                    ).timeout(0);
-                }
-            );
-
-            describe(
-                '(0, 10, includeMin:false, includeMax:true)',
-                () => {
-                    it(
-                        'should return integers in the range (0, 10], each number with a 10% chance',
-                        (done) => {
-                            generate(
-                                () => {
-                                    return Randomly.getRandomInt(0, 10, {
-                                        includeMin : false,
-                                        includeMax : true,
-                                    });
-                                },
-                                (value) => {
-                                    assert.equal(10, value);
-                                }
-                            );
-
-                            done();
-                        }
-                    ).timeout(0);
-                }
-            );
-
-            describe(
-                '(0, 10, includeMin:false, includeMax:false)',
-                () => {
-                    it(
-                        'should return integers in the range (0, 10), each number with a 10% chance',
-                        (done) => {
-                            generate(
-                                () => {
-                                    return Randomly.getRandomInt(0, 10, {
-                                        includeMin : false,
-                                        includeMax : false,
-                                    });
-                                },
-                                (value) => {
-                                    assert.equal(10, value);
-                                }
-                            );
-
-                            done();
-                        }
-                    ).timeout(0);
-                }
-            );
-
-            describe(
-                'Extreme Cases',
+                'in general cases',
                 () => {
                     describe(
-                        'Bound Checks',
+                        'when calling .getRandomInt() with default arguments',
                         () => {
-                            describe(
-                                '(0, 0)',
-                                () => {
-                                    it(
-                                        'should throw an error, the minimum and maximum cannot be equal',
-                                        () => {
-                                            assert.throws(
-                                                () => {
-                                                    Randomly.getRandomInt(0, 0);
-                                                },
-                                                'Minimum (0) and maximum (0) cannot be equal.'
-                                            );
-                                        }
-                                    )
-                                }
-                            );
+                            it(
+                                'should return integers in the range [0, Number.MAX_SAFE_INTEGER)',
+                                (done) => {
+                                    const len = 15000000;
 
-                            describe(
-                                '(1, 0)',
-                                () => {
-                                    it(
-                                        'should throw an error, the minimum cannot be larger, than the maximum',
-                                        () => {
-                                            assert.throws(
-                                                () => {
-                                                    Randomly.getRandomInt(1, 0);
-                                                },
-                                                'Minimum (1) cannot be larger, than maximum (0).'
-                                            );
-                                        }
-                                    )
-                                }
-                            );
+                                    let sum = 0;
 
-                            describe(
-                                '(0, 1, includeMin:false, includeMax:true)',
-                                () => {
-                                    it(
-                                        'should throw an error, no possible integer in the range (0, 1]',
-                                        () => {
-                                            assert.throws(
-                                                () => {
-                                                    Randomly.getRandomInt(0, 1, {
-                                                        includeMin : false,
-                                                        includeMax : true,
-                                                    });
-                                                },
-                                                'Minimum is excluded, no possible integer in the range (0, 1].'
-                                            );
-                                        }
-                                    )
-                                }
-                            );
+                                    for (let i = 0; i < len; i++) {
+                                        sum += Randomly.getRandomInt();
+                                    }
 
-                            describe(
-                                '(0, 1, includeMin:true, includeMax:false)',
-                                () => {
-                                    it(
-                                        'should throw an error, no possible integer in the range [0, 1)',
-                                        () => {
-                                            assert.throws(
-                                                () => {
-                                                    Randomly.getRandomInt(0, 1, {
-                                                        includeMin : true,
-                                                        includeMax : false,
-                                                    });
-                                                },
-                                                'Maximum is excluded, no possible integer in the range [0, 1).'
-                                            );
-                                        }
-                                    )
-                                }
-                            );
+                                    let avg  = sum / len,
+                                        bias = Math.round(avg / (Number.MAX_SAFE_INTEGER / 2) * 50) / 100;
 
-                            describe(
-                                '(0, 1, includeMin:false, includeMax:false)',
-                                () => {
-                                    it(
-                                        'should throw an error, no possible integer in the range (0, 1)',
-                                        () => {
-                                            assert.throws(
-                                                () => {
-                                                    Randomly.getRandomInt(0, 1, {
-                                                        includeMin : false,
-                                                        includeMax : false,
-                                                    });
-                                                },
-                                                'Minimum and maximum are excluded, ' +
-                                                'no possible integer in the range (0, 1).'
-                                            );
-                                        }
-                                    )
+                                    // if the random integers in the range [0, Number.MAX_SAFE_INTEGER)
+                                    // are properly distributed, the average will be ~4503599627370496,
+                                    // which is about the half of 9007199254740991, hence the .5 bias
+                                    assert.equal(.5, bias);
+
+                                    done();
                                 }
-                            );
+                            ).timeout(0);
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(0, 10) with default options',
+                        () => {
+                            it(
+                                'should return integers in the range [0, 10), each number with a 10% chance',
+                                (done) => {
+                                    const percents = generate(
+                                        () => {
+                                            return Randomly.getRandomInt(0, 10);
+                                        },
+                                        (value) => {
+                                            assert.equal(10, value);
+                                        }
+                                    );
+
+                                    assert.deepEqual(
+                                        getNumbers(percents),
+                                        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                                    );
+
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(0, 10, { includeMin: true, includeMax: false })',
+                        () => {
+                            it(
+                                'should return integers in the range [0, 10), each number with a 10% chance',
+                                (done) => {
+                                    const percents = generate(
+                                        () => {
+                                            return Randomly.getRandomInt(0, 10, {
+                                                includeMin : true,
+                                                includeMax : false,
+                                            });
+                                        },
+                                        (value) => {
+                                            assert.equal(10, value);
+                                        }
+                                    );
+
+                                    assert.deepEqual(
+                                        getNumbers(percents),
+                                        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                                    );
+
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(0, 10, { includeMin: true, includeMax: true })',
+                        () => {
+                            it(
+                                'should return integers in the range [0, 10], each number with a 9.1% chance',
+                                (done) => {
+                                    const percents = generate(
+                                        () => {
+                                            return Randomly.getRandomInt(0, 10, {
+                                                includeMin : true,
+                                                includeMax : true,
+                                            });
+                                        },
+                                        (value) => {
+                                            assert.equal(9.1, value);
+                                        }
+                                    );
+
+                                    assert.deepEqual(
+                                        getNumbers(percents),
+                                        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                    );
+
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(0, 10, { includeMin: false, includeMax: true })',
+                        () => {
+                            it(
+                                'should return integers in the range (0, 10], each number with a 10% chance',
+                                (done) => {
+                                    const percents = generate(
+                                        () => {
+                                            return Randomly.getRandomInt(0, 10, {
+                                                includeMin : false,
+                                                includeMax : true,
+                                            });
+                                        },
+                                        (value) => {
+                                            assert.equal(10, value);
+                                        }
+                                    );
+
+                                    assert.deepEqual(
+                                        getNumbers(percents),
+                                        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                    );
+
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(0, 10, { includeMin: false, includeMax: false })',
+                        () => {
+                            it(
+                                'should return integers in the range (0, 10), each number with a 11.1% chance',
+                                (done) => {
+                                    const percents = generate(
+                                        () => {
+                                            return Randomly.getRandomInt(0, 10, {
+                                                includeMin : false,
+                                                includeMax : false,
+                                            });
+                                        },
+                                        (value) => {
+                                            assert.equal(11.1, value);
+                                        }
+                                    );
+
+                                    assert.deepEqual(
+                                        getNumbers(percents),
+                                        [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                                    );
+
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+                }
+            );
+
+            describe(
+                'in less common cases',
+                () => {
+                    describe(
+                        'when calling .getRandomInt(-5, 5)',
+                        () => {
+                            it(
+                                'should return integers in the range [-5, 5), each number with a 10% chance',
+                                (done) => {
+                                    const percents = generate(
+                                        () => {
+                                            return Randomly.getRandomInt(-5, 5);
+                                        },
+                                        (value) => {
+                                            assert.equal(10, value);
+                                        }
+                                    );
+
+                                    assert.deepEqual(
+                                        getNumbers(percents),
+                                        [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4]
+                                    );
+
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(-10, 0)',
+                        () => {
+                            it(
+                                'should return integers in the range [-10, 0), each number with a 10% chance',
+                                (done) => {
+                                    const percents = generate(
+                                        () => {
+                                            return Randomly.getRandomInt(-10, 0);
+                                        },
+                                        (value) => {
+                                            assert.equal(10, value);
+                                        }
+                                    );
+
+                                    assert.deepEqual(
+                                        getNumbers(percents),
+                                        [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1]
+                                    );
+
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(-10, -5)',
+                        () => {
+                            it(
+                                'should return integers in the range [-10, -5), each number with a 20% chance',
+                                (done) => {
+                                    const percents = generate(
+                                        () => {
+                                            return Randomly.getRandomInt(-10, -5);
+                                        },
+                                        (value) => {
+                                            assert.equal(20, value);
+                                        }
+                                    );
+
+                                    assert.deepEqual(
+                                        getNumbers(percents),
+                                        [-10, -9, -8, -7, -6]
+                                    );
+
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(-1, 1)',
+                        () => {
+                            it(
+                                'should return integers in the range [-1, 1), which are -1s and 0s with 50% chance',
+                                (done) => {
+                                    const percents = generate(
+                                        () => {
+                                            return Randomly.getRandomInt(-1, 1);
+                                        },
+                                        (value) => {
+                                            assert.equal(50, value);
+                                        }
+                                    );
+
+                                    assert.deepEqual(
+                                        getNumbers(percents),
+                                        [-1, 0]
+                                    );
+
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+                }
+            );
+
+            describe(
+                'in extreme cases',
+                () => {
+                    describe(
+                        'when calling .getRandomInt(0, 0)',
+                        () => {
+                            it(
+                                'should throw an error, the minimum and maximum cannot be equal',
+                                () => {
+                                    assert.throws(
+                                        () => {
+                                            Randomly.getRandomInt(0, 0);
+                                        },
+                                        'Minimum (0) and maximum (0) cannot be equal.'
+                                    );
+                                }
+                            )
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(1, 0)',
+                        () => {
+                            it(
+                                'should throw an error, the minimum cannot be larger, than the maximum',
+                                () => {
+                                    assert.throws(
+                                        () => {
+                                            Randomly.getRandomInt(1, 0);
+                                        },
+                                        'Minimum (1) cannot be larger, than maximum (0).'
+                                    );
+                                }
+                            )
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(0, 1, { includeMin: false, includeMax: true })',
+                        () => {
+                            it(
+                                'should throw an error, no possible integer in the range (0, 1]',
+                                () => {
+                                    assert.throws(
+                                        () => {
+                                            Randomly.getRandomInt(0, 1, {
+                                                includeMin : false,
+                                                includeMax : true,
+                                            });
+                                        },
+                                        'Minimum is excluded, no possible integer in the range (0, 1].'
+                                    );
+                                }
+                            )
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(-1, 0)',
+                        () => {
+                            it(
+                                'should throw an error, no possible integer in the range [-1, 0)',
+                                () => {
+                                    assert.throws(
+                                        () => {
+                                            Randomly.getRandomInt(-1, 0);
+                                        },
+                                        'Maximum is excluded, no possible integer in the range [-1, 0).'
+                                    );
+                                }
+                            )
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomInt(0, 1, { includeMin: false, includeMax: false})',
+                        () => {
+                            it(
+                                'should throw an error, no possible integer in the range (0, 1)',
+                                () => {
+                                    assert.throws(
+                                        () => {
+                                            Randomly.getRandomInt(0, 1, {
+                                                includeMin : false,
+                                                includeMax : false,
+                                            });
+                                        },
+                                        'Minimum and maximum are excluded, no possible integer in the range (0, 1).'
+                                    );
+                                }
+                            )
                         }
                     );
                 }

@@ -30,7 +30,6 @@ const constants     = require('../_internals/constants'),
  */
 function getRandomInt(minimum, maximum, options)
 {
-    // TODO: implement negative ranges
     // TODO: implement biased random int
 
     minimum = numberOf(minimum, constants._DEFAULT_INT_MIN);
