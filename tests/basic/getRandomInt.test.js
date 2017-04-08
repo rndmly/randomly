@@ -79,7 +79,7 @@ module.exports = (Randomly) => {
                                         bias = Math.round(avg / (Number.MAX_SAFE_INTEGER / 2) * 50) / 100;
 
                                     // if the random integers in the range [0, Number.MAX_SAFE_INTEGER)
-                                    // are properly distributed, the average will be ~4503599627370496,
+                                    // are uniquely distributed (AMAP), the average will be ~4503599627370496,
                                     // which is about the half of 9007199254740991, hence the .5 bias
                                     assert.equal(.5, bias);
 
