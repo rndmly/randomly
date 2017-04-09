@@ -6,55 +6,14 @@
 const assert = require('chai').assert;
 
 
-function generate(genFn, testFn)
-{
-    const size = 10000000,
-          vals = {};
+module.exports = (Randomly, utils) => {
+    const SampleGenerator = utils.SampleGenerator;
 
-    for (let i = 0; i < size; i++) {
-        let key = genFn();
+    const generator = new SampleGenerator({
+        size   : 22500000,
+        caster : (s) => Object.keys(s).map(Number).sort((a, b) => a - b),
+    });
 
-        if (!(key in vals)) {
-            vals[key] = 0;
-        }
-
-        ++vals[key];
-    }
-
-    const percents = {};
-
-    for (let key in vals) {
-        if (vals.hasOwnProperty(key)) {
-            const value = vals[key];
-
-            percents[key] = Math.round(value / size * 1000) / 10;
-        }
-    }
-
-    if (testFn) {
-        for (let key in percents) {
-            if (percents.hasOwnProperty(key)) {
-                const value = percents[key];
-
-                testFn(value);
-            }
-        }
-    }
-
-    return percents;
-}
-
-
-function getNumbers(percents)
-{
-    return Object
-        .keys(percents)
-        .map(Number)
-        .sort((a, b) => a - b);
-}
-
-
-module.exports = (Randomly) => {
     describe(
         '.getRandomInt()',
         () => {
@@ -67,7 +26,7 @@ module.exports = (Randomly) => {
                             it(
                                 'should return integers in the range [0, Number.MAX_SAFE_INTEGER)',
                                 (done) => {
-                                    const len = 15000000;
+                                    const len = 30000000;
 
                                     let sum = 0;
 
@@ -95,17 +54,13 @@ module.exports = (Randomly) => {
                             it(
                                 'should return integers in the range [0, 10), each number with a 10% chance',
                                 (done) => {
-                                    const percents = generate(
-                                        () => {
-                                            return Randomly.getRandomInt(0, 10);
-                                        },
-                                        (value) => {
-                                            assert.equal(10, value);
-                                        }
-                                    );
+                                    const generated = generator.generateWith({
+                                        generator : ()  => Randomly.getRandomInt(0, 10),
+                                        tester    : (v) => assert.equal(10, v),
+                                    });
 
                                     assert.deepEqual(
-                                        getNumbers(percents),
+                                        generated.values,
                                         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                                     );
 
@@ -116,25 +71,20 @@ module.exports = (Randomly) => {
                     );
 
                     describe(
-                        'when calling .getRandomInt(0, 10, { includeMin: true, includeMax: false })',
+                        'when calling .getRandomInt(0, 10, {includeMin: true, includeMax: false})',
                         () => {
                             it(
                                 'should return integers in the range [0, 10), each number with a 10% chance',
                                 (done) => {
-                                    const percents = generate(
-                                        () => {
-                                            return Randomly.getRandomInt(0, 10, {
-                                                includeMin : true,
-                                                includeMax : false,
-                                            });
-                                        },
-                                        (value) => {
-                                            assert.equal(10, value);
-                                        }
-                                    );
+                                    const generated = generator.generateWith({
+                                        generator : () => Randomly
+                                            .getRandomInt(0, 10, {includeMin: true, includeMax: false}
+                                        ),
+                                        tester : (v) => assert.equal(10, v),
+                                    });
 
                                     assert.deepEqual(
-                                        getNumbers(percents),
+                                        generated.values,
                                         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                                     );
 
@@ -145,25 +95,20 @@ module.exports = (Randomly) => {
                     );
 
                     describe(
-                        'when calling .getRandomInt(0, 10, { includeMin: true, includeMax: true })',
+                        'when calling .getRandomInt(0, 10, {includeMin: true, includeMax: true})',
                         () => {
                             it(
                                 'should return integers in the range [0, 10], each number with a 9.1% chance',
                                 (done) => {
-                                    const percents = generate(
-                                        () => {
-                                            return Randomly.getRandomInt(0, 10, {
-                                                includeMin : true,
-                                                includeMax : true,
-                                            });
-                                        },
-                                        (value) => {
-                                            assert.equal(9.1, value);
-                                        }
-                                    );
+                                    const generated = generator.generateWith({
+                                        generator : () => Randomly
+                                            .getRandomInt(0, 10, {includeMin: true, includeMax: true}
+                                        ),
+                                        tester : (v) => assert.equal(9.1, v),
+                                    });
 
                                     assert.deepEqual(
-                                        getNumbers(percents),
+                                        generated.values,
                                         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                                     );
 
@@ -174,25 +119,20 @@ module.exports = (Randomly) => {
                     );
 
                     describe(
-                        'when calling .getRandomInt(0, 10, { includeMin: false, includeMax: true })',
+                        'when calling .getRandomInt(0, 10, {includeMin: false, includeMax: true})',
                         () => {
                             it(
                                 'should return integers in the range (0, 10], each number with a 10% chance',
                                 (done) => {
-                                    const percents = generate(
-                                        () => {
-                                            return Randomly.getRandomInt(0, 10, {
-                                                includeMin : false,
-                                                includeMax : true,
-                                            });
-                                        },
-                                        (value) => {
-                                            assert.equal(10, value);
-                                        }
-                                    );
+                                    const generated = generator.generateWith({
+                                        generator : () => Randomly
+                                            .getRandomInt(0, 10, {includeMin: false, includeMax: true}
+                                        ),
+                                        tester : (v) => assert.equal(10, v),
+                                    });
 
                                     assert.deepEqual(
-                                        getNumbers(percents),
+                                        generated.values,
                                         [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                                     );
 
@@ -203,25 +143,20 @@ module.exports = (Randomly) => {
                     );
 
                     describe(
-                        'when calling .getRandomInt(0, 10, { includeMin: false, includeMax: false })',
+                        'when calling .getRandomInt(0, 10, {includeMin: false, includeMax: false})',
                         () => {
                             it(
                                 'should return integers in the range (0, 10), each number with a 11.1% chance',
                                 (done) => {
-                                    const percents = generate(
-                                        () => {
-                                            return Randomly.getRandomInt(0, 10, {
-                                                includeMin : false,
-                                                includeMax : false,
-                                            });
-                                        },
-                                        (value) => {
-                                            assert.equal(11.1, value);
-                                        }
-                                    );
+                                    const generated = generator.generateWith({
+                                        generator : () => Randomly
+                                            .getRandomInt(0, 10, {includeMin: false, includeMax: false}
+                                        ),
+                                        tester : (v) => assert.equal(11.1, v),
+                                    });
 
                                     assert.deepEqual(
-                                        getNumbers(percents),
+                                        generated.values,
                                         [1, 2, 3, 4, 5, 6, 7, 8, 9]
                                     );
 
@@ -242,17 +177,14 @@ module.exports = (Randomly) => {
                             it(
                                 'should return integers in the range [-5, 5), each number with a 10% chance',
                                 (done) => {
-                                    const percents = generate(
-                                        () => {
-                                            return Randomly.getRandomInt(-5, 5);
-                                        },
-                                        (value) => {
-                                            assert.equal(10, value);
-                                        }
-                                    );
+                                    const generated = generator.generateWith({
+                                        size      : 7000000,
+                                        generator : () => Randomly.getRandomInt(-5, 5),
+                                        tester    : (v) => assert.equal(10, v),
+                                    });
 
                                     assert.deepEqual(
-                                        getNumbers(percents),
+                                        generated.values,
                                         [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4]
                                     );
 
@@ -268,17 +200,14 @@ module.exports = (Randomly) => {
                             it(
                                 'should return integers in the range [-10, 0), each number with a 10% chance',
                                 (done) => {
-                                    const percents = generate(
-                                        () => {
-                                            return Randomly.getRandomInt(-10, 0);
-                                        },
-                                        (value) => {
-                                            assert.equal(10, value);
-                                        }
-                                    );
+                                    const generated = generator.generateWith({
+                                        size      : 5000000,
+                                        generator : () => Randomly.getRandomInt(-10, 0),
+                                        tester    : (v) => assert.equal(10, v),
+                                    });
 
                                     assert.deepEqual(
-                                        getNumbers(percents),
+                                        generated.values,
                                         [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1]
                                     );
 
@@ -294,17 +223,14 @@ module.exports = (Randomly) => {
                             it(
                                 'should return integers in the range [-10, -5), each number with a 20% chance',
                                 (done) => {
-                                    const percents = generate(
-                                        () => {
-                                            return Randomly.getRandomInt(-10, -5);
-                                        },
-                                        (value) => {
-                                            assert.equal(20, value);
-                                        }
-                                    );
+                                    const generated = generator.generateWith({
+                                        size      : 5000000,
+                                        generator : () => Randomly.getRandomInt(-10, -5),
+                                        tester    : (v) => assert.equal(20, v),
+                                    });
 
                                     assert.deepEqual(
-                                        getNumbers(percents),
+                                        generated.values,
                                         [-10, -9, -8, -7, -6]
                                     );
 
@@ -320,17 +246,14 @@ module.exports = (Randomly) => {
                             it(
                                 'should return integers in the range [-1, 1), which are -1s and 0s with 50% chance',
                                 (done) => {
-                                    const percents = generate(
-                                        () => {
-                                            return Randomly.getRandomInt(-1, 1);
-                                        },
-                                        (value) => {
-                                            assert.equal(50, value);
-                                        }
-                                    );
+                                    const generated = generator.generateWith({
+                                        size      : 7000000,
+                                        generator : () => Randomly.getRandomInt(-1, 1),
+                                        tester    : (v) => assert.equal(50, v),
+                                    });
 
                                     assert.deepEqual(
-                                        getNumbers(percents),
+                                        generated.values,
                                         [-1, 0]
                                     );
 
@@ -352,9 +275,7 @@ module.exports = (Randomly) => {
                                 'should throw an error, the minimum and maximum cannot be equal',
                                 () => {
                                     assert.throws(
-                                        () => {
-                                            Randomly.getRandomInt(0, 0);
-                                        },
+                                        () => Randomly.getRandomInt(0, 0),
                                         'Minimum (0) and maximum (0) cannot be equal.'
                                     );
                                 }
@@ -369,9 +290,7 @@ module.exports = (Randomly) => {
                                 'should throw an error, the minimum cannot be larger, than the maximum',
                                 () => {
                                     assert.throws(
-                                        () => {
-                                            Randomly.getRandomInt(1, 0);
-                                        },
+                                        () => Randomly.getRandomInt(1, 0),
                                         'Minimum (1) cannot be larger, than maximum (0).'
                                     );
                                 }
@@ -386,12 +305,7 @@ module.exports = (Randomly) => {
                                 'should throw an error, no possible integer in the range (0, 1]',
                                 () => {
                                     assert.throws(
-                                        () => {
-                                            Randomly.getRandomInt(0, 1, {
-                                                includeMin : false,
-                                                includeMax : true,
-                                            });
-                                        },
+                                        () => Randomly.getRandomInt(0, 1, {includeMin : false, includeMax : true}),
                                         'Minimum is excluded, no possible integer in the range (0, 1].'
                                     );
                                 }
@@ -406,9 +320,7 @@ module.exports = (Randomly) => {
                                 'should throw an error, no possible integer in the range [-1, 0)',
                                 () => {
                                     assert.throws(
-                                        () => {
-                                            Randomly.getRandomInt(-1, 0);
-                                        },
+                                        () => Randomly.getRandomInt(-1, 0),
                                         'Maximum is excluded, no possible integer in the range [-1, 0).'
                                     );
                                 }
@@ -423,12 +335,7 @@ module.exports = (Randomly) => {
                                 'should throw an error, no possible integer in the range (0, 1)',
                                 () => {
                                     assert.throws(
-                                        () => {
-                                            Randomly.getRandomInt(0, 1, {
-                                                includeMin : false,
-                                                includeMax : false,
-                                            });
-                                        },
+                                        () => Randomly.getRandomInt(0, 1, {includeMin : false, includeMax : false}),
                                         'Minimum and maximum are excluded, no possible integer in the range (0, 1).'
                                     );
                                 }

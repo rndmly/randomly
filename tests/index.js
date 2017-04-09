@@ -1,6 +1,38 @@
 'use strict';
 
-const Randomly = require('../index');
+
+const Randomly = require('../index'),
+      utils    = require('./_utils');
+
+
+/**
+ * Require modules with the necessary dependencies.
+ *
+ * @param {Array|*} modules                  - One ore more modules to require and run.
+ * @param {boolean} [dependenciesOnly=false] - Pass only the dependencies.
+ */
+function requireModules(modules, dependenciesOnly)
+{
+    dependenciesOnly = typeof dependenciesOnly === 'boolean' ? dependenciesOnly : false;
+
+    let modulesArray = modules;
+
+    if (!Array.isArray(modules)) {
+        modulesArray = [modules];
+    }
+
+    modulesArray.forEach(
+        (module) => {
+            if (dependenciesOnly) {
+                require(module)(Randomly, utils);
+
+            } else {
+                require(module)(requireModules, [Randomly, utils]);
+            }
+        }
+    );
+}
+
 
 describe(
     'Randomly',
@@ -18,17 +50,12 @@ describe(
         }
 
         if (filename) {
-            require(`./${filename}`)(Randomly);
+            requireModules(`./${filename}`, true);
 
         } else {
-            [
-                require('./basic'),
-
-            ].forEach(
-                (module) => {
-                    module(Randomly);
-                }
-            );
+            requireModules([
+                './basic',
+            ]);
         }
     }
 );
