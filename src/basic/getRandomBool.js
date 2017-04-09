@@ -22,7 +22,11 @@ const constants = require('../_internals/constants');
  */
 function getRandomBool(bias)
 {
-    if (typeof bias === 'undefined') {
+    if (typeof bias !== 'number'
+        || bias !== bias         // NaN check
+        || bias === +Infinity
+        || bias === -Infinity) {
+
         bias = constants._DEFAULT_BOOLEAN_BIAS;
     }
 
