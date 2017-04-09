@@ -6,208 +6,219 @@
 const assert = require('chai').assert;
 
 
-function generate(genFn, testFn)
-{
-    const size  = 2500000,
-          bools = {
-              true  : 0,
-              false : 0,
-          };
+module.exports = (Randomly, utils) => {
+    const SampleGenerator = utils.SampleGenerator;
 
-    for (let i = 0; i < size; i++) {
-        let key = genFn();
+    const generator = new SampleGenerator({
+        size   : 22500000,
+        caster : (s) => Object.keys(s).sort().reverse().map((v) => v === 'true'),
+    });
 
-        ++bools[key];
-    }
-
-    const percents = {
-        true  : Math.floor(bools.true  / size * 100),
-        false : Math.floor(bools.false / size * 100),
-    };
-
-    if (testFn) {
-        for (let key in percents) {
-            if (percents.hasOwnProperty(key)) {
-                const value = percents[key];
-
-                testFn(value);
-            }
-        }
-    }
-
-    return percents;
-}
-
-
-module.exports = (Randomly) => {
     describe(
         '.getRandomBool()',
         () => {
             describe(
-                '() - call with defaults',
+                'in general cases',
                 () => {
-                    it(
-                        'should return boolean values [true, false] between 50%-50% chances (+-1% diff)',
-                        (done) => {
-                            const ratios = [49, 50, 51];
+                    describe(
+                        'when calling .getRandomBool() with default arguments',
+                        () => {
+                            it(
+                                'should return boolean values [true, false], each value with a 50% chance',
+                                (done) => {
+                                    const generated = generator.generateWith({
+                                        generator : ()  => Randomly.getRandomBool(),
+                                        tester    : (v) => assert.equal(50, v),
+                                    });
 
-                            generate(
-                                () => {
-                                    return Randomly.getRandomBool();
-                                },
-                                (value) => {
-                                    assert.include(ratios, value);
+                                    assert.deepEqual(generated.values, [true, false]);
+
+                                    done();
                                 }
-                            );
-
-                            done();
+                            ).timeout(0);
                         }
                     );
-                }
-            );
 
-            describe(
-                '(*) - call with invalid arguments',
-                () => {
-                    it(
-                        'should return boolean values [true, false]',
-                        (done) => {
-                            const bools = [true, false],
-                                  fn    = Randomly.getRandomBool;
+                    describe(
+                        'when calling .getRandomBool(0)',
+                        () => {
+                            it(
+                                'should return false 100% of the time',
+                                (done) => {
+                                    const generated = generator.generateWith({
+                                        generator : ()  => Randomly.getRandomBool(0),
+                                        tester    : (v) => assert.equal(100, v),
+                                    });
 
-                            [
-                                fn(undefined),
-                                fn(null),
-                                fn(true),
-                                fn('0'),
-                                fn(NaN),
-                                fn(-Infinity),
-                                fn(Infinity),
-                                fn({}),
-                                fn([]),
+                                    assert.deepEqual(generated.values, [false]);
 
-                            ].forEach(
-                                (value) => {
-                                    assert.include(bools, value);
+                                    done();
                                 }
-                            );
-
-                            done();
-                        }
-                    );
-                }
-            );
-
-            describe(
-                '(0.0) - biased - false all the time',
-                () => {
-                    it(
-                        'should return false in 100% of the time',
-                        (done) => {
-                            const percents = generate(() => { return Randomly.getRandomBool(0.0); });
-
-                            assert.equal(percents.true,  0);
-                            assert.equal(percents.false, 100);
-
-                            done();
+                            ).timeout(0);
                         }
                     );
 
-                    it(
-                        'should return false in 100% of the time, when lower, than 0 was passed',
-                        (done) => {
-                            const percents = generate(() => { return Randomly.getRandomBool(-10); });
+                    describe(
+                        'when calling .getRandomBool(0.25)',
+                        () => {
+                            it(
+                                'should return boolean values [true, false], true with 25%, false with 75% chances',
+                                (done) => {
+                                    const generated = generator.generateWith({
+                                        generator : ()  => Randomly.getRandomBool(0.25),
+                                        tester    : (v) => assert.include([25, 75], v),
+                                    });
 
-                            assert.equal(percents.true,  0);
-                            assert.equal(percents.false, 100);
+                                    assert.deepEqual(generated.values, [true, false]);
 
-                            done();
-                        }
-                    );
-                }
-            );
-
-            describe(
-                '(0.25) - biased - true about 25%, false about 75%',
-                () => {
-                    it(
-                        'should return [true, false] between 25%-75% chances (+-1% diff)',
-                        (done) => {
-                            const percents = generate(() => { return Randomly.getRandomBool(0.25); });
-
-                            assert.include([24, 25, 26], percents.true);
-                            assert.include([74, 75, 76], percents.false);
-
-                            done();
-                        }
-                    );
-                }
-            );
-
-            describe(
-                '(0.5) - biased - true or false about 50% of the time',
-                () => {
-                    it(
-                        'should return boolean values [true, false] between 50%-50% chances (+-1% diff)',
-                        (done) => {
-                            const ratios = [49, 50, 51];
-
-                            generate(
-                                () => {
-                                    return Randomly.getRandomBool();
-                                },
-                                (value) => {
-                                    assert.include(ratios, value);
+                                    done();
                                 }
-                            );
+                            ).timeout(0);
+                        }
+                    );
 
-                            done();
+                    describe(
+                        'when calling .getRandomBool(0.5)',
+                        () => {
+                            it(
+                                'should return boolean values [true, false], both true and false with 50% chances',
+                                (done) => {
+                                    const generated = generator.generateWith({
+                                        generator : ()  => Randomly.getRandomBool(0.5),
+                                        tester    : (v) => assert.equal(50, v),
+                                    });
+
+                                    assert.deepEqual(generated.values, [true, false]);
+
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomBool(0.75)',
+                        () => {
+                            it(
+                                'should return boolean values [true, false], true with 75%, false with 25% chances',
+                                (done) => {
+                                    const generated = generator.generateWith({
+                                        generator : ()  => Randomly.getRandomBool(0.75),
+                                        tester    : (v) => assert.include([25, 75], v),
+                                    });
+
+                                    assert.deepEqual(generated.values, [true, false]);
+
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomBool(1)',
+                        () => {
+                            it(
+                                'should return true 100% of the time',
+                                (done) => {
+                                    const generated = generator.generateWith({
+                                        generator : ()  => Randomly.getRandomBool(1),
+                                        tester    : (v) => assert.equal(100, v),
+                                    });
+
+                                    assert.deepEqual(generated.values, [true]);
+
+                                    done();
+                                }
+                            ).timeout(0);
                         }
                     );
                 }
             );
 
             describe(
-                '(0.75) - biased - true about 75%, false about 25%',
+                'in less common cases',
                 () => {
-                    it(
-                        'should return [true, false] between 75%-25% chances (+-1% diff)',
-                        (done) => {
-                            const percents = generate(() => { return Randomly.getRandomBool(0.75); });
+                    describe(
+                        'when calling .getRandomBool(0.01)',
+                        () => {
+                            it(
+                                'should return boolean values [true, false], true with 1%, false with 99% chances',
+                                (done) => {
+                                    const generated = generator.generateWith({
+                                        generator : ()  => Randomly.getRandomBool(0.01),
+                                        tester    : (v) => assert.include([1, 99], v),
+                                    });
 
-                            assert.include([74, 75, 76], percents.true);
-                            assert.include([24, 25, 26], percents.false);
+                                    assert.deepEqual(generated.values, [true, false]);
 
-                            done();
+                                    done();
+                                }
+                            ).timeout(0);
+                        }
+                    );
+
+                    describe(
+                        'when calling .getRandomBool(0.99)',
+                        () => {
+                            it(
+                                'should return boolean values [true, false], true with 99%, false with 1% chances',
+                                (done) => {
+                                    const generated = generator.generateWith({
+                                        generator : ()  => Randomly.getRandomBool(0.99),
+                                        tester    : (v) => assert.include([1, 99], v),
+                                    });
+
+                                    assert.deepEqual(generated.values, [true, false]);
+
+                                    done();
+                                }
+                            ).timeout(0);
                         }
                     );
                 }
             );
 
             describe(
-                '(1.0) - biased - true all the time',
+                'in extreme cases',
                 () => {
-                    it(
-                        'should return true in 100% of the time',
-                        (done) => {
-                            const percents = generate(() => { return Randomly.getRandomBool(1.0); });
+                    describe(
+                        'when calling .getRandomBool(*) with invalid arguments',
+                        () => {
+                            it(
+                                'should return boolean values [true, false], each value with a 50% chance',
+                                (done) => {
+                                    const args = [
+                                              undefined,
+                                              null,
+                                              true,
+                                              false,
+                                              '',
+                                              '0',
+                                              '1',
+                                              NaN,
+                                              -Infinity,
+                                              Infinity,
+                                              {},
+                                              [],
+                                              /\s/g,
+                                              new Date(),
+                                          ],
+                                          len = args.length;
 
-                            assert.equal(percents.true,  100);
-                            assert.equal(percents.false, 0);
+                                    const generated = generator.generateWith({
+                                        size : 15000000,
+                                        generator : ()  => Randomly
+                                            .getRandomBool(args[Math.floor(Math.random() * len)]
+                                        ),
+                                        tester : (v) => assert.equal(50, v),
+                                    });
 
-                            done();
-                        }
-                    );
+                                    assert.deepEqual(generated.values, [true, false]);
 
-                    it(
-                        'should return true in 100% of the time, when larger, than 1 was passed',
-                        (done) => {
-                            const percents = generate(() => { return Randomly.getRandomBool(10); });
-
-                            assert.equal(percents.true,  100);
-                            assert.equal(percents.false, 0);
-
-                            done();
+                                    done();
+                                }
+                            ).timeout(0);
                         }
                     );
                 }
