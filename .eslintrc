@@ -38,8 +38,8 @@
                 "exceptions" : [
                     "i", "j", "k", "l",
                     "a", "b", "c", "d", "e",
-                    "p", "n", "q",
-                    "x", "y", "w", "h"
+                    "p", "n", "q", "v", "s",
+                    "x", "y", "z", "w", "h"
                 ]
             }
         ],
@@ -54,7 +54,7 @@
         "max-lines" : [
             2,
             {
-                "max"            : 500,
+                "max"            : 1000,
                 "skipBlankLines" : true,
                 "skipComments"   : true
             }
